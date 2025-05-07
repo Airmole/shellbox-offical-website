@@ -2,7 +2,7 @@
   <n-space vertical size="large" style="gap: unset">
   <n-layout>
     <n-layout-header></n-layout-header>
-    <n-layout-content :native-scrollbar="false">
+    <n-layout-content id="layout-content" :native-scrollbar="false">
       <n-grid cols="1 300:1 600:2">
         <n-grid-item span="0 600:1">
           <n-flex justify="center" align="center">
@@ -50,10 +50,10 @@
             <div class="margin-top"><span class="sub-title">课程表、成绩、校历、图书应有尽有...</span></div>
             <n-grid cols="0 600:3" class="margin-top" style="margin-top: 50px;max-width: 600px;">
               <n-grid-item span="0 600:1">
-                <a href="https://shellbox.ustb.tj.cn" class="link-text">
+                <a :href="webUrl" class="link-text">
                   <n-card hoverable content-style="padding: 0 0 2px 0; text-align: center;">
                     <template #cover>
-                      <img style="width: 160px;" src="/statics/weapp_qrcode.webp">
+                      <n-qr-code :value="webUrl" :size="160" icon-src="/statics/logo_round.png" :padding="4" :icon-border-radius="20"/>
                     </template>
                     <div class="link-text">立即体验网页版</div>
                   </n-card>
@@ -63,17 +63,17 @@
                 <a class="link-text">
                   <n-card hoverable content-style="padding: 0 0 2px 0; text-align: center;">
                     <template #cover>
-                      <img style="width: 160px;" src="/statics/weapp_qrcode.webp">
+                      <n-qr-code :value="weappUrl" :size="160" icon-src="/statics/logo_round.png" :padding="4" :icon-border-radius="20"/>
                     </template>
                     <div class="">微信小程序</div>
                   </n-card>
                 </a>
               </n-grid-item>
               <n-grid-item span="0 600:1">
-                <a href="https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f" class="link-text">
+                <a :href="qqappUrl" class="link-text">
                   <n-card hoverable content-style="padding: 0 0 2px 0; text-align: center;">
                     <template #cover>
-                      <img style="width: 160px;" src="/statics/qqapp_qrcode.png">
+                      <n-qr-code :value="qqappUrl" :size="160" icon-src="/statics/logo_round.png" :padding="4" :icon-border-radius="20"/>
                     </template>
                     <div class="link-text">QQ小程序</div>
                   </n-card>
@@ -86,10 +86,10 @@
           <n-flex justify="center" align="center">
             <div style="width: 380px;height: 640px">
               <n-carousel autoplay draggable :interval="3000" :show-dots="true">
-                <img class="carousel-img" src="/statics/shot1.webp">
-                <img class="carousel-img" src="/statics/shot2.webp">
-                <img class="carousel-img" src="/statics/shot3.webp">
-                <img class="carousel-img" src="/statics/shot4.webp">
+                <img class="carousel-img" src="/statics/shot1.webp" alt="截图1">
+                <img class="carousel-img" src="/statics/shot2.webp" alt="截图2">
+                <img class="carousel-img" src="/statics/shot3.webp" alt="截图3">
+                <img class="carousel-img" src="/statics/shot4.webp" alt="截图4">
               </n-carousel>
             </div>
           </n-flex>
@@ -126,7 +126,7 @@
         role="dialog"
         aria-modal="true"
     >
-      <img style="width: 180px;" src="/statics/weapp_qrcode.webp">
+      <img style="width: 170px;" :src="weappQrcodeCanvasData" alt="微信小程序二维码">
       <div style="text-align: center;">长按识别二维码打开小程序</div>
       <template #footer>
         <n-flex justify="center" align="center">
@@ -135,6 +135,7 @@
       </template>
     </n-card>
   </n-modal>
+  <n-qr-code id="weapp-qrcode" class="hidden-qrcode" :value="weappUrl" :size="170" icon-src="/statics/logo_round.png" :padding="4" :icon-border-radius="20"/>
 
   </n-space>
 </template>
@@ -155,8 +156,8 @@ import {
   NLayoutFooter,
   NLayout,
   NLayoutHeader,
-  useOsTheme,
-  NModal
+  NModal,
+  NQrCode
 } from 'naive-ui'
 import { MdShare, LogoYen } from '@vicons/ionicons4'
 
@@ -176,7 +177,8 @@ export default {
     NLayoutFooter,
     NLayout,
     NLayoutHeader,
-    NModal
+    NModal,
+    NQrCode
   },
   setup() {
     const message = useMessage()
@@ -187,18 +189,24 @@ export default {
   data() {
     return {
       pageWidth: document.body.clientWidth,
-      osTheme: '',
       showWeappQrcodeModal: false,
+      webUrl: 'https://shellbox.ustb.tj.cn',
+      weappUrl: 'https://mp.weixin.qq.com/a/~O_zRPqghO9tODOTG18awNg~~',
+      qqappUrl: 'https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f',
+      weappQrcodeCanvasData: '',
     }
   },
   mounted() {
-    document.documentElement.style.setProperty('--body-bg-color', 'rgb(16, 16, 20)');
+    const element = document.getElementById('layout-content') as HTMLElement
+    const bgColorValue = getComputedStyle(element).getPropertyValue('--n-color').trim()
+    document.documentElement.style.setProperty('--body-bg-color', bgColorValue)
     const that = this
     window.onresize = () => {
       that.pageWidth = document.body.clientWidth
     }
-    const osThemeRef = useOsTheme()
-    this.osTheme = osThemeRef.value ? 'dark' : 'light'
+
+    const canvas = document.querySelector('#weapp-qrcode')?.querySelector<HTMLCanvasElement>('canvas')
+    if (canvas) this.weappQrcodeCanvasData = canvas.toDataURL()
   },
   methods: {
     copyShare () {
@@ -259,7 +267,7 @@ export default {
   font-size: 22px;
 }
 .n-card {
-  max-width: 160px;
+  max-width: 170px;
 }
 .link-text {
   text-decoration: none;
@@ -298,5 +306,11 @@ iframe {
 }
 .opensource {
   margin-top: 60px;
+}
+.hidden-qrcode {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
