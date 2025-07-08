@@ -97,7 +97,7 @@
         <n-grid-item span="0 800:2">
           <n-flex justify="center" align="center">
             <div class="phone">
-              <iframe src="https://shellbox.ustb.tj.cn" frameborder="0" scrolling="auto"></iframe>
+              <iframe src="https://www.shellbox.airmole.cn" frameborder="0" scrolling="auto"></iframe>
             </div>
           </n-flex>
         </n-grid-item>
@@ -190,7 +190,7 @@ export default {
     return {
       pageWidth: document.body.clientWidth,
       showWeappQrcodeModal: false,
-      webUrl: 'https://shellbox.ustb.tj.cn',
+      webUrl: 'https://www.shellbox.airmole.cn',
       weappUrl: 'https://mp.weixin.qq.com/a/~O_zRPqghO9tODOTG18awNg~~',
       qqappUrl: 'https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f',
       weappQrcodeCanvasData: '',
