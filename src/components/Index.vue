@@ -190,7 +190,7 @@ export default {
     return {
       pageWidth: document.body.clientWidth,
       showWeappQrcodeModal: false,
-      webUrl: 'https://www.shellbox.airmole.cn',
+      webUrl: 'https://shellbox.ustb.tj.cn',
       weappUrl: 'https://mp.weixin.qq.com/a/~O_zRPqghO9tODOTG18awNg~~',
       qqappUrl: 'https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f',
       weappQrcodeCanvasData: '',
