@@ -79,22 +79,16 @@
                   </n-card>
                 </a>
               </n-grid-item>
-              <n-grid-item span="0 600:1">
-                <a class="link-text" @click.prevent="downloadAndroid">
-                  <n-card hoverable content-style="padding: 0 0 2px 0; text-align: center;">
-                    <template #cover>
-                      <div class="apk-cover">
-                        <img class="apk-logo" src="/statics/logo_round.png" alt="安卓APP">
-                        <div class="apk-name">安卓APP</div>
-                        <div class="apk-version">v4.12.0</div>
-                        <n-button type="info" size="small" ghost class="apk-btn">下载 APK</n-button>
-                      </div>
-                    </template>
-                    <div class="link-text">安卓APP</div>
-                  </n-card>
-                </a>
-              </n-grid-item>
             </n-grid>
+
+            <n-flex justify="center" align="center" class="margin-top apk-download">
+              <n-button type="primary" size="large" round @click="downloadAndroid">
+                <template #icon>
+                  <NIcon><LogoAndroid/></NIcon>
+                </template>
+                下载安卓APP
+              </n-button>
+            </n-flex>
 
             <n-flex justify="center" align="center" class="margin-top apk-tip">
               <span>安卓版仅<strong>会员用户</strong>可登录使用</span>
@@ -203,7 +197,7 @@ import {
   NModal,
   NQrCode
 } from 'naive-ui'
-import { MdShare, LogoYen } from '@vicons/ionicons4'
+import { MdShare, LogoYen, LogoAndroid } from '@vicons/ionicons4'
 
 export default {
   components: {
@@ -216,6 +210,7 @@ export default {
     NCarousel,
     MdShare,
     LogoYen,
+    LogoAndroid,
     NSpace,
     NLayoutContent,
     NLayoutFooter,
@@ -369,32 +364,8 @@ iframe {
 .opensource {
   margin-top: 60px;
 }
-.apk-cover {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 160px;
-  padding: 8px;
-  box-sizing: border-box;
-}
-.apk-logo {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-}
-.apk-name {
-  margin-top: 8px;
-  font-size: 16px;
-  font-weight: bold;
-}
-.apk-version {
-  margin-top: 2px;
-  font-size: 12px;
-  color: #999;
-}
-.apk-btn {
-  margin-top: 8px;
+.apk-download {
+  margin-top: 24px;
 }
 .apk-tip {
   font-size: 13px;
