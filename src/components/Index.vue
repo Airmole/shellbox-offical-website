@@ -232,7 +232,7 @@ export default {
       webUrl: 'https://shellbox.ustb.tj.cn',
       weappUrl: 'https://mp.weixin.qq.com/a/~O_zRPqghO9tODOTG18awNg~~',
       qqappUrl: 'https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f',
-      androidApkUrl: 'http://r2.airmole.cn/apk/cn.airmole.shellbox_4.12.0.apk',
+      androidApkUrl: 'https://r2.airmole.cn/apk/cn.airmole.shellbox_4.12.0.apk',
       showWechatTipModal: false,
       weappQrcodeCanvasData: '',
     }
