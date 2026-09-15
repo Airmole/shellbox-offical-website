@@ -80,6 +80,19 @@
                 </a>
               </n-grid-item>
             </n-grid>
+
+            <n-flex justify="center" align="center" class="margin-top apk-download">
+              <n-button type="primary" size="large" round @click="downloadAndroid">
+                <template #icon>
+                  <NIcon><LogoAndroid/></NIcon>
+                </template>
+                下载安卓APP
+              </n-button>
+            </n-flex>
+
+            <n-flex justify="center" align="center" class="margin-top apk-tip">
+              <span>安卓版仅<strong>会员用户</strong>可登录使用</span>
+            </n-flex>
           </n-flex>
         </n-grid-item>
         <n-grid-item span="3 800:0">
@@ -135,6 +148,31 @@
       </template>
     </n-card>
   </n-modal>
+  <n-modal v-model:show="showWechatTipModal">
+    <n-card
+        style="min-width: 280px"
+        :bordered="false"
+        size="huge"
+        role="dialog"
+        aria-modal="true"
+    >
+      <div style="text-align: center; font-size: 18px; font-weight: bold;">暂不支持在微信内下载</div>
+      <div style="text-align: center; margin-top: 16px; line-height: 1.8;">
+        因微信限制，无法在微信内直接下载 APK 安装包<br>
+        请点击右上角「···」<br>
+        选择「在浏览器中打开」后再下载
+      </div>
+      <div style="text-align: center; margin-top: 12px; color: #999; font-size: 13px;">
+        安卓版仅会员用户可登录使用
+      </div>
+      <template #footer>
+        <n-flex justify="center" align="center">
+          <n-button @click="copyApkUrl" type="info" ghost>复制下载链接</n-button>
+          <n-button @click="showWechatTipModal=false" type="primary">我知道了</n-button>
+        </n-flex>
+      </template>
+    </n-card>
+  </n-modal>
   <n-qr-code id="weapp-qrcode" class="hidden-qrcode" :value="weappUrl" :size="170" icon-src="/statics/logo_round.png" :padding="4" :icon-border-radius="20"/>
 
   </n-space>
@@ -159,7 +197,7 @@ import {
   NModal,
   NQrCode
 } from 'naive-ui'
-import { MdShare, LogoYen } from '@vicons/ionicons4'
+import { MdShare, LogoYen, LogoAndroid } from '@vicons/ionicons4'
 
 export default {
   components: {
@@ -172,6 +210,7 @@ export default {
     NCarousel,
     MdShare,
     LogoYen,
+    LogoAndroid,
     NSpace,
     NLayoutContent,
     NLayoutFooter,
@@ -193,6 +232,8 @@ export default {
       webUrl: 'https://shellbox.ustb.tj.cn',
       weappUrl: 'https://mp.weixin.qq.com/a/~O_zRPqghO9tODOTG18awNg~~',
       qqappUrl: 'https://m.q.qq.com/a/s/ecb79401e20eaed769a98ec652e75c1f',
+      androidApkUrl: 'https://r2.airmole.cn/apk/cn.airmole.shellbox_4.12.0.apk',
+      showWechatTipModal: false,
       weappQrcodeCanvasData: '',
     }
   },
@@ -229,6 +270,22 @@ export default {
     },
     recharge () {
       window.open('https://ifdian.net/a/Airmole?tab=shop')
+    },
+    downloadAndroid () {
+      const ua = navigator.userAgent.toLowerCase()
+      // 微信内置浏览器无法直接下载 apk，引导用户使用系统浏览器打开
+      const isWechat = /micromessenger/i.test(ua)
+      if (isWechat) {
+        this.showWechatTipModal = true
+        return
+      }
+      window.open(this.androidApkUrl)
+    },
+    copyApkUrl () {
+      const { toClipboard } = useClipboard()
+      toClipboard(this.androidApkUrl).then(() => {
+        this.message.success('下载链接已复制，请在浏览器中粘贴打开')
+      })
     }
   }
 }
@@ -306,6 +363,13 @@ iframe {
 }
 .opensource {
   margin-top: 60px;
+}
+.apk-download {
+  margin-top: 24px;
+}
+.apk-tip {
+  font-size: 13px;
+  color: #999;
 }
 .hidden-qrcode {
   visibility: hidden;
